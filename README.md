@@ -31,10 +31,16 @@ with the default value (which should be your username).
 Usage: `circle [command]`
 
 Commands:
+
 open            Opens the current project in your browser
+
 recent [n]      Show info about the recent [n] builds
+
 retry [id]      Retry a build
+
 cancel [id]     Cancel the build with ID or the latest
+
 me              Displays info about the registered user
+
 
 Or type `circle help` for help.
