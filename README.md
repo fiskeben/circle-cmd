@@ -51,9 +51,9 @@ Or type `circle help` for help.
 
 Planned features:
 
-- [] Trigger a new build
-- [] Clear build cache
-- [] Support per-project username/organization
+- [ ] Trigger a new build
+- [ ] Clear build cache
+- [ ] Support per-project username/organization
 
 Other [API endpoints](https://circleci.com/docs/api/) aren't planned as such unless there is demand.
 PRs are welcome.
