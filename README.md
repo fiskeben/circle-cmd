@@ -18,14 +18,23 @@ I prefer to remove the `.rb` by linking it:
 ln -s ../my-stuff/circle-cmd/circle.rb circle
 ```
 
-Configure your organization name in Git:
+circle-cmd will ask for a *CircleCI token* and your username/organization
+the first time you run it.
 
-```
-git config --global --add circle-ci.organization acme
-```
+Note on username/organization: If you're using CircleCI with an organization
+you need to type it's name at the prompt. Otherwise you should be good to go
+with the default value (which should be your username).
 
-... where `acme` is your organization's name.
 
 ## Usage
 
-Just `cd` to a Git repository and type `circle`.
+Usage: `circle [command]`
+
+Commands:
+open            Opens the current project in your browser
+recent [n]      Show info about the recent [n] builds
+retry [id]      Retry a build
+cancel [id]     Cancel the build with ID or the latest
+me              Displays info about the registered user
+
+Or type `circle help` for help.

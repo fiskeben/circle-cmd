@@ -1,15 +1,50 @@
 #!/usr/bin/ruby
 
-repo_path = `git rev-parse --show-toplevel`
+require_relative './base_command'
 
-if $? == 0
-  organization = (`git config --get circle-ci.organization`).strip
-  if organization == ''
-    puts "Please set your organization's name like (like this: git config --global --add circle-ci.organization acme)"
-    exit(1)
+command = BaseCommand.new
+unless command.is_setup?
+  command.setup
+  exit(0)
+end
+
+def extra_argument
+  return ARGV[1] if ARGV.length > 1
+end
+
+def print_help(helping=true)
+  puts <<-HELP
+
+Usage: circle [command]
+
+Commands:
+open            Opens the current project in your browser
+recent [n]      Show info about the recent [n] builds
+retry [id]      Retry a build
+cancel [id]     Cancel the build with ID or the latest
+me              Displays info about the registered user
+
+HELP
+end
+
+case ARGV.first
+when 'me'
+  command.show_my_details
+when 'open'
+  command.open_project
+when 'recent'
+  command.list_builds(extra_argument)
+when 'retry'
+  command.retry_build(extra_argument)
+when 'cancel'
+  command.cancel_build(extra_argument)
+when 'help'
+  print_help(false)
+else
+  unless ARGV.empty?
+    puts "\nUnknown command '#{ARGV.join(' ')}'"
+    print_help
+  else
+    command.open_project
   end
-  repo_name = repo_path.split('/').last.strip
-  branch_name = (`git rev-parse --abbrev-ref HEAD`).strip
-  url = "https://circleci.com/gh/#{organization}/#{repo_name}/tree/#{branch_name}"
-  exec("open '#{url}'")
 end
