@@ -37,6 +37,18 @@ ME
     puts ""
   end
 
+  def current_status
+    current_build = @client.list_builds(@username, repo_name, 1)
+
+    puts "\nCurrent build:\n\n"
+    tabulator = Tabulator.new(current_build)
+      .with_headers(['Build num', 'Subject', 'By', 'Status'])
+      .with_column_names([:build_num, :subject, :committer_name, :status])
+
+    puts tabulator
+    puts ""
+  end
+
   def retry_build(build_num=nil)
     build_num = latest_build_num if build_num.nil?
 

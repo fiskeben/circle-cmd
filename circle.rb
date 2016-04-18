@@ -19,6 +19,7 @@ Usage: circle [command]
 
 Commands:
 open            Opens the current project in your browser
+status          Show info about the latest build
 recent [n]      Show info about the recent [n] builds
 retry [id]      Retry a build
 cancel [id]     Cancel the build with ID or the latest
@@ -32,6 +33,8 @@ when 'me'
   command.show_my_details
 when 'open'
   command.open_project
+when 'status'
+  command.current_status
 when 'recent'
   command.list_builds(extra_argument)
 when 'retry'
