@@ -12,6 +12,18 @@ Pull requests with Windows support are welcome.
 
 ## Installation
 
+### Install with Homebrew
+
+Add my tap:
+
+`brew tap fiskeben/tap`
+
+and install:
+
+`brew install circle-cmd`
+
+### Manual installation
+
 Clone this project to somewhere on your disk and add `circle.rb` to your path.
 I prefer to remove the `.rb` by linking it:
 
