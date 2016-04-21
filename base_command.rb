@@ -30,8 +30,8 @@ ME
 
     puts "\n#{number_of_builds_to_show} recent builds:\n\n"
     tabulator = Tabulator.new(builds)
-      .with_headers(['Build num', 'Subject', 'By', 'Status'])
-      .with_column_names([:build_num, :subject, :committer_name, :status])
+      .with_headers(['Build num', 'Subject', 'By', 'Status', 'Time spent'])
+      .with_column_names([:build_num, :subject, :committer_name, :status, :build_time_human_readable])
 
     puts tabulator
     puts ""

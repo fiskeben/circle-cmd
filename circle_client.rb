@@ -18,7 +18,30 @@ class CircleClient
 
   def list_builds(username, project, number, options={})
     url = "project/#{username}/#{project}?circle-token=#{@token}&limit=#{number}"
-    get(url)
+    get(url).collect do |b|
+      build_time_millis = (b.build_time_millis) ? b.build_time_millis.to_i : 0
+
+      if build_time_millis > 0
+        seconds = build_time_millis / 1000
+        s = seconds % 60
+        seconds /= 60
+        m = seconds % 60
+        seconds /= 60
+        h = seconds % 60
+
+        s = "0#{s}" if s < 10
+        m = "0#{m}" if h > 0 && m < 10
+
+        if h > 0
+          b.build_time_human_readable = "#{h}:#{m}:#{s}"
+        elsif h == 0 && m > 0
+          b.build_time_human_readable = "#{m}:#{s}"
+        else
+          b.build_time_human_readable = "#{s} sec"
+        end
+      end
+      b
+    end
   end
 
   def retry_build(username, project, build_num, options={})
