@@ -36,7 +36,22 @@ class Tabulator
       @column_widths[c] = widths_for_column.max + 2
     end
 
-    @total_width = @column_widths.values.reduce(:+)
+    @total_width = @column_widths.values.reduce(:+) + @columns.length - 1
+
+    limit_columns
+  end
+
+  def limit_columns
+    width_of_terminal = terminal_width
+    if @total_width > width_of_terminal
+      widest_column = @column_widths.max_by do | key, value |
+        value
+      end
+      p @column_widths[widest_column[0]]
+      @column_widths[widest_column[0]] = @column_widths[widest_column[0]] - (@total_width - width_of_terminal)
+      @total_width = width_of_terminal
+      p @column_widths[widest_column[0]]
+    end
   end
 
   def make_header
@@ -63,17 +78,28 @@ class Tabulator
         current_width = @column_widths[column_key]
         value = item[column_key].to_s
         if value.length >= current_width
-          value = value[0..(current_width-4)]
+          value = value[0..(current_width-5)]
           value += "..."
         end
 
+        remaining_width = current_width - value.length - 1
+        remaining_width = 0 if remaining_width < 0
+
         @result += " #{value}"
-        @result += " " * (current_width - value.length - 1)
+        @result += " " * remaining_width
         if index < @columns.length - 1
           @result += "|"
         end
       end
-      @result += "\n" + "-" * @total_width + "\n"
+      @result += horizontal_line
     end
+  end
+
+  def horizontal_line
+    "\n" + "-" * @total_width + "\n"
+  end
+
+  def terminal_width
+    `tput cols`.to_i
   end
 end
