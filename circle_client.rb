@@ -67,7 +67,7 @@ class CircleClient
     uri = create_uri(path)
     http = create_http(uri)
     request = create_post(uri)
-    do_request(http, reuest)
+    do_request(http, request)
   end
 
   def create_uri(path)
