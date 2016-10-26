@@ -21,6 +21,7 @@ Commands:
 open            Opens the current project in your browser
 status          Show info about the latest build
 recent [n]      Show info about the recent [n] builds
+commit          Get the SHA of the latest successful build
 retry [id]      Retry a build
 cancel [id]     Cancel the build with ID or the latest
 me              Displays info about the registered user
@@ -37,6 +38,8 @@ when 'status'
   command.current_status
 when 'recent'
   command.list_builds(extra_argument)
+when 'commit'
+  command.latest_successful_commit
 when 'retry'
   command.retry_build(extra_argument)
 when 'cancel'

@@ -49,6 +49,20 @@ ME
     puts ""
   end
 
+  def latest_successful_commit
+    latest_builds = @client.list_builds(@username, repo_name, 10)
+
+    latest_successful = latest_builds.find do | build |
+      build.status == "success"
+    end
+
+    if latest_successful.nil?
+      abort
+    else
+      puts latest_successful.vcs_revision
+    end
+  end
+
   def retry_build(build_num=nil)
     build_num = latest_build_num if build_num.nil?
 
