@@ -2,6 +2,7 @@ require 'net/http'
 require 'openssl'
 require 'uri'
 require 'json'
+require 'time'
 
 CIRCLE_CI_URI = "https://circleci.com/api/v1/"
 
@@ -19,7 +20,15 @@ class CircleClient
   def list_builds(username, project, number, options={})
     url = "project/#{username}/#{project}?circle-token=#{@token}&limit=#{number}"
     get(url).collect do |b|
-      build_time_millis = (b.build_time_millis) ? b.build_time_millis.to_i : 0
+      build_time_millis = 0
+
+      if b.build_time_millis.nil?
+        start_time = Time.parse(b.start_time).utc
+        now = Time.now.utc
+        build_time_millis = (now.to_time.to_i - start_time.to_time.to_i) * 1000
+      else
+        build_time_millis = b.build_time_millis.to_i
+      end
 
       if build_time_millis > 0
         seconds = build_time_millis / 1000

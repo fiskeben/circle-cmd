@@ -47,10 +47,8 @@ class Tabulator
       widest_column = @column_widths.max_by do | key, value |
         value
       end
-      p @column_widths[widest_column[0]]
       @column_widths[widest_column[0]] = @column_widths[widest_column[0]] - (@total_width - width_of_terminal)
       @total_width = width_of_terminal
-      p @column_widths[widest_column[0]]
     end
   end
 
