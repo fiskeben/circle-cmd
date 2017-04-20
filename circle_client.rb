@@ -4,7 +4,7 @@ require 'uri'
 require 'json'
 require 'time'
 
-CIRCLE_CI_URI = "https://circleci.com/api/v1/"
+CIRCLE_CI_URI = "https://circleci.com/api/v1.1/"
 
 class CircleClient
 
@@ -18,14 +18,16 @@ class CircleClient
   end
 
   def list_builds(username, project, number, options={})
-    url = "project/#{username}/#{project}?circle-token=#{@token}&limit=#{number}"
+    url = "project/github/#{username}/#{project}?circle-token=#{@token}&limit=#{number}"
     get(url).collect do |b|
       build_time_millis = 0
 
       if b.build_time_millis.nil?
-        start_time = Time.parse(b.start_time).utc
-        now = Time.now.utc
-        build_time_millis = (now.to_time.to_i - start_time.to_time.to_i) * 1000
+        unless b.start_time.nil?
+          start_time = Time.parse(b.start_time).utc
+          now = Time.now.utc
+          build_time_millis = (now.to_time.to_i - start_time.to_time.to_i) * 1000
+        end
       else
         build_time_millis = b.build_time_millis.to_i
       end
@@ -48,18 +50,20 @@ class CircleClient
         else
           b.build_time_human_readable = "#{s} sec"
         end
+      else
+        b.build_time_human_readable = "Not started"
       end
       b
     end
   end
 
   def retry_build(username, project, build_num, options={})
-    url = "#{username}/#{project}/#{build_num}/retry?circle-token=#{@token}"
+    url = "project/github/#{username}/#{project}/#{build_num}/retry?circle-token=#{@token}"
     post(url)
   end
 
   def cancel_build(username, project, build_num, options={})
-    url = "#{username}/#{project}/#{build_num}/cancel?circle-token=#{@token}"
+    url = "/project/github/#{username}/#{project}/#{build_num}/cancel?circle-token=#{@token}"
     post(url)
   end
 
@@ -97,6 +101,7 @@ class CircleClient
   end
 
   def create_post(uri)
+    p uri.request_uri
     request = Net::HTTP::Post.new(uri.request_uri)
   end
 
@@ -113,6 +118,7 @@ class CircleClient
         return OpenStruct.new(json)
       end
     else
+      p response, request
       raise StandardError.new("Error talking to CircleCI API")
     end
   end
