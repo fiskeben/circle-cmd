@@ -1,6 +1,6 @@
 # About circle-cmd
 
-A command line tool for opening your Git repo in Circle CI.
+A command line tool for getting status about your project's build jobs in Circle CI.
 Inspired by [hub](https://github.com/github/hub).
 
 ## Requirements
@@ -16,27 +16,27 @@ Pull requests with Windows support are welcome.
 
 Add my tap:
 
-`brew tap fiskeben/tap`
+`$ brew tap fiskeben/tap`
 
 and install:
 
-`brew install circle-cmd`
+`$ brew install circle-cmd`
 
 ### Manual installation
 
-Clone this project to somewhere on your disk and add `circle.rb` to your path.
-I prefer to remove the `.rb` by linking it:
+Clone or download this project to somewhere on your disk and add `circle.rb` to your path.
+I prefer to remove the `.rb` by linking it like this:
 
 ```
-ln -s ../my-stuff/circle-cmd/circle.rb circle
+$ ln -s ../my-stuff/circle-cmd/circle.rb circle
 ```
 
-circle-cmd will ask for a **CircleCI token** and your username/organization
+`circle-cmd` will ask for a **CircleCI token** and your username/organization
 the first time you run it.
 Create an API token from [your CircleCI account page](https://circleci.com/account/api).
 
 Note on username/organization: If you're using CircleCI with an organization
-you need to type it's name at the prompt. Otherwise you should be good to go
+you need to type its name at the prompt. Otherwise you should be good to go
 with the default value (which should be your username).
 
 
@@ -69,4 +69,5 @@ Planned features:
 - [ ] Support per-project username/organization
 
 Other [API endpoints](https://circleci.com/docs/api/) aren't planned as such unless there is demand.
+
 PRs are welcome.
