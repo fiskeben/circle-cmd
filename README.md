@@ -1,4 +1,4 @@
-# About circle-cmd
+# circle-cmd
 
 A command line tool for getting status about your project's build jobs in Circle CI.
 Inspired by [hub](https://github.com/github/hub).
