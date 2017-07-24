@@ -3,6 +3,8 @@
 A command line tool for getting status about your project's build jobs in Circle CI.
 Inspired by [hub](https://github.com/github/hub).
 
+**Note:** This tool uses the 1.0 Circle CI API. For 2.0 support, take a look at [the official command line tool](https://circleci.com/docs/2.0/local-jobs/).
+
 ## Requirements
 
 Ruby installed to `/usr/bin/ruby`.
